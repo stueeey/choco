@@ -16,6 +16,7 @@
 namespace chocolatey.infrastructure.app
 {
     using System;
+    using System.IO;
     using System.Text.RegularExpressions;
     using adapters;
     using filesystem;
@@ -34,7 +35,9 @@ namespace chocolatey.infrastructure.app
 #else
         public static readonly string InstallLocation = System.Environment.GetEnvironmentVariable(ChocolateyInstallEnvironmentVariableName) ?? _fileSystem.get_directory_name(_fileSystem.get_current_assembly_path());
 #endif
-
+        public static readonly string ChocolateyConsoleApplicationName = "choco.exe";
+        public static readonly string ChocolateyConsoleApplicationPath = _fileSystem.combine_paths(InstallLocation, ChocolateyConsoleApplicationName);
+        public static readonly string ChocolateyUrlProtocolPrefix = "choco";
         public static readonly string CommonAppDataChocolatey = _fileSystem.combine_paths(System.Environment.GetFolderPath(System.Environment.SpecialFolder.CommonApplicationData), Name);
         public static readonly string LoggingLocation = _fileSystem.combine_paths(InstallLocation, "logs");
         public static readonly string LoggingFile = @"chocolatey.log";

@@ -41,6 +41,7 @@ namespace chocolatey.infrastructure.app.configuration
             UpgradeCommand = new UpgradeCommandConfiguration();
             SourceCommand = new SourcesCommandConfiguration();
             MachineSources = new List<MachineSourceConfiguration>();
+            HandleUrlCommand = new HandleUrlCommandConfiguration();
             FeatureCommand = new FeatureCommandConfiguration();
             ConfigCommand = new ConfigCommandConfiguration();
             ApiKeyCommand = new ApiKeyCommandConfiguration();
@@ -265,6 +266,14 @@ NOTE: Hiding sensitive configuration data! Please double and triple
         public IList<MachineSourceConfiguration> MachineSources { get; set; }
 
         /// <summary>
+        /// Configuration related specifically to the UrlHandler Command command
+        /// </summary>
+        /// <remarks>
+        ///   On .NET 4.0, get error CS0200 when private set - see http://stackoverflow.com/a/23809226/18475
+        /// </remarks>
+        public HandleUrlCommandConfiguration HandleUrlCommand { get; set; }
+
+        /// <summary>
         /// Configuration related specifically to the Feature command
         /// </summary>
         /// <remarks>
@@ -399,6 +408,20 @@ NOTE: Hiding sensitive configuration data! Please double and triple
         public string Username { get; set; }
         public string Password { get; set; }
         public int Priority { get; set; }
+    }
+
+    public enum UrlProtocolCommandInstruction
+    {
+        ProcessUrl,
+        Register,
+        Deregister
+    }
+
+    [Serializable]
+    public sealed class HandleUrlCommandConfiguration
+    {
+        public UrlProtocolCommandInstruction Instruction { get; set; }
+        public string Url { get; set; }
     }
 
     [Serializable]

@@ -61,6 +61,7 @@ namespace chocolatey.infrastructure.app.registration
             container.Register<IHashProvider>(() => new CryptoHashProvider(container.GetInstance<IFileSystem>(), CryptoHashProviderType.Md5), Lifestyle.Singleton);
             container.Register<ITemplateService, TemplateService>(Lifestyle.Singleton);
             container.Register<IChocolateyConfigSettingsService, ChocolateyConfigSettingsService>(Lifestyle.Singleton);
+            container.Register<IChocolateyUrlHandlerService, ChocolateyUrlHandlerService>(Lifestyle.Singleton);
             container.Register<IChocolateyPackageService, ChocolateyPackageService>(Lifestyle.Singleton);
             container.Register<IAutomaticUninstallerService, AutomaticUninstallerService>(Lifestyle.Singleton);
             container.Register<IFileTypeDetectorService, FileTypeDetectorService>(Lifestyle.Singleton);
@@ -87,6 +88,7 @@ namespace chocolatey.infrastructure.app.registration
                             new ChocolateyFeatureCommand(container.GetInstance<IChocolateyConfigSettingsService>()),
                             new ChocolateyApiKeyCommand(container.GetInstance<IChocolateyConfigSettingsService>()),
                             new ChocolateyUnpackSelfCommand(container.GetInstance<IFileSystem>()),
+                            new ChocolateyHandleUrlCommand(container.GetInstance<IChocolateyUrlHandlerService>()),
                             new ChocolateyVersionCommand(container.GetInstance<IChocolateyPackageService>()),
                             new ChocolateyUpdateCommand(container.GetInstance<IChocolateyPackageService>())
                         };
