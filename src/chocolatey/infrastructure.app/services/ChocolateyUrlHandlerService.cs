@@ -16,14 +16,9 @@
 namespace chocolatey.infrastructure.app.services
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
+    using System.Text.RegularExpressions;
     using configuration;
-    using infrastructure.configuration;
-    using infrastructure.services;
-    using logging;
     using Microsoft.Win32;
-    using nuget;
     using platforms;
 
     internal class ChocolateyUrlHandlerService : IChocolateyUrlHandlerService
@@ -40,7 +35,7 @@ namespace chocolatey.infrastructure.app.services
         // This is the command that will be fired when the user opens a choco:// url
         // choco will prompt to run as admin
         // %1 will contain the FULL url
-        private static string command => string.Format("powershell -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -file '{0}' -ArgumentList 'HandleUrl --url=%1' -verb runas\"", ApplicationParameters.ChocolateyConsoleApplicationPath);
+        private static string command => string.Format("\"{0}\" HandleUrl -url=\"%1\"", ApplicationParameters.ChocolateyBootstrapperApplicationPath);
         private static readonly string CHOCOPROTOCOLHANDLER = ApplicationParameters.ChocolateyUrlProtocolPrefix + "ProtocolHandler";
         private static readonly string CR_CHOCO = @"HKEY_CLASSES_ROOT\" + ApplicationParameters.ChocolateyUrlProtocolPrefix;
         private static readonly string CR_CHOCO_SHELL_OPEN_COMMAND = CR_CHOCO + @"\shell\open\command";
@@ -79,17 +74,47 @@ namespace chocolatey.infrastructure.app.services
             throw new NotImplementedException();
         }
 
-        public void handle_url(ChocolateyConfiguration configuration)
+        private static readonly Regex _versionRegex = new Regex(@"(?:-v|-version)=(?<version>[\d\.]+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        public void handle_url(ChocolateyConfiguration configuration, IChocolateyPackageService packageService)
         {
             if (string.IsNullOrWhiteSpace(configuration.HandleUrlCommand.Url))
             {
                 this.Log().Error("Please specify a url to process");
                 return;
             }
+            this.Log().Info($"Url is '{configuration.HandleUrlCommand.Url}'");
+            this.Log().Info($"Sources: " + configuration.Sources);
+            var urlSansPrefix = Regex.Replace(configuration.HandleUrlCommand.Url.Trim(), "^choco://", "", RegexOptions.IgnoreCase);
+            var parts = urlSansPrefix.Split(';'); // support for flags
+            configuration.PackageNames = parts[0];
+            // Only support a safe subset of flags (need to keep them from being able to specify 3rd party package sources)
+            for (int i = 1; i < parts.Length; i++)
+            {
+                if (Regex.IsMatch(parts[i], "-not-?silent|-ns"))
+                {
+                    configuration.NotSilent = true;
+                    continue;
+                }
+                if (Regex.IsMatch(parts[i], "-y"))
+                {
+                    configuration.PromptForConfirmation = false;
+                    continue;
+                }
+                var versionMatch = _versionRegex.Match(parts[i]);
+                if (versionMatch.Success)
+                {
+                    var version = versionMatch.Groups["version"].Value;
+                    configuration.Version = version;
+                    this.Log().Info($"Version requested is {version}");
+                    continue;
+                }
 
-            // Just echo it and wait for a keypress for now
-            this.Log().Info(configuration.HandleUrlCommand.Url);
-            throw new NotImplementedException("SOON");
+            }
+            if (configuration.Noop)
+                packageService.install_noop(configuration);
+            else
+                packageService.install_run(configuration);
+
         }
 
         // ================================== Private ==================================

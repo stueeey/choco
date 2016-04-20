@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2010
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chocolatey.console", "chocolatey.console\chocolatey.console.csproj", "{E24E3386-244F-4404-9E6E-5B53818EA903}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chocolatey.tests", "chocolatey.tests\chocolatey.tests.csproj", "{5C4C60F0-47B1-498E-ABF7-D315E1A94BC9}"
@@ -44,6 +46,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "toplevel", "toplevel", "{18
 		..\CONTRIBUTING.md = ..\CONTRIBUTING.md
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "chocolatey.bootstrapper", "chocolatey.bootstrapper\chocolatey.bootstrapper.csproj", "{CAF72BD3-D865-465E-9844-61A0DA60745A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -107,6 +111,18 @@ Global
 		{12ECAD4F-D463-4D72-A792-A4FCCFE9C456}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{12ECAD4F-D463-4D72-A792-A4FCCFE9C456}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{12ECAD4F-D463-4D72-A792-A4FCCFE9C456}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Debug|x86.Build.0 = Debug|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|x86.ActiveCfg = Release|Any CPU
+		{CAF72BD3-D865-465E-9844-61A0DA60745A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -115,7 +131,7 @@ Global
 		{5C4C60F0-47B1-498E-ABF7-D315E1A94BC9} = {7656D054-387D-409C-A9FB-62A44599AA77}
 		{12ECAD4F-D463-4D72-A792-A4FCCFE9C456} = {7656D054-387D-409C-A9FB-62A44599AA77}
 		{DAB29F30-149D-4005-A8D2-4FA56CF2784D} = {FB6236DD-17EF-4C36-943C-47792FBC3306}
-		{DD9689F3-1D2D-41AE-A672-063EE70C0C9A} = {FB6236DD-17EF-4C36-943C-47792FBC3306}
 		{E5C987F8-6B95-4835-BBDD-A25C9D370BB9} = {DAB29F30-149D-4005-A8D2-4FA56CF2784D}
+		{DD9689F3-1D2D-41AE-A672-063EE70C0C9A} = {FB6236DD-17EF-4C36-943C-47792FBC3306}
 	EndGlobalSection
 EndGlobal

@@ -88,7 +88,7 @@ namespace chocolatey.infrastructure.app.registration
                             new ChocolateyFeatureCommand(container.GetInstance<IChocolateyConfigSettingsService>()),
                             new ChocolateyApiKeyCommand(container.GetInstance<IChocolateyConfigSettingsService>()),
                             new ChocolateyUnpackSelfCommand(container.GetInstance<IFileSystem>()),
-                            new ChocolateyHandleUrlCommand(container.GetInstance<IChocolateyUrlHandlerService>()),
+                            new ChocolateyHandleUrlCommand(container.GetInstance<IChocolateyUrlHandlerService>(), container.GetInstance<IChocolateyPackageService>()),
                             new ChocolateyVersionCommand(container.GetInstance<IChocolateyPackageService>()),
                             new ChocolateyUpdateCommand(container.GetInstance<IChocolateyPackageService>())
                         };

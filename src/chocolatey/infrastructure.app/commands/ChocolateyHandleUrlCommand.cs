@@ -37,10 +37,12 @@ namespace chocolatey.infrastructure.app.commands
     public class ChocolateyHandleUrlCommand : ICommand
     {
         private readonly IChocolateyUrlHandlerService _urlHandlerService;
+        private readonly IChocolateyPackageService _packageService;
 
-        public ChocolateyHandleUrlCommand(IChocolateyUrlHandlerService handlerService)
+        public ChocolateyHandleUrlCommand(IChocolateyUrlHandlerService handlerService, IChocolateyPackageService packageService)
         {
             _urlHandlerService = handlerService;
+            _packageService = packageService;
         }
 
         public virtual void configure_argument_parser(OptionSet optionSet, ChocolateyConfiguration configuration)
@@ -98,7 +100,7 @@ NOTE: This command should only be used when installing Chocolatey or when openin
             switch (configuration.HandleUrlCommand.Instruction)
             {
                 case UrlProtocolCommandInstruction.ProcessUrl:
-                    _urlHandlerService.handle_url(configuration);
+                    _urlHandlerService.handle_url(configuration, _packageService);
                     break;
                 case UrlProtocolCommandInstruction.Register:
                     _urlHandlerService.register_url_protocol(configuration);

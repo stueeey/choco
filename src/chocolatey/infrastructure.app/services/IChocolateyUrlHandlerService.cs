@@ -21,6 +21,6 @@ namespace chocolatey.infrastructure.app.services
     {
         void register_url_protocol(ChocolateyConfiguration configuration);
         void deregister_url_protocol(ChocolateyConfiguration configuration);
-        void handle_url(ChocolateyConfiguration configuration);
+        void handle_url(ChocolateyConfiguration configuration, IChocolateyPackageService packageService);
     }
 }
